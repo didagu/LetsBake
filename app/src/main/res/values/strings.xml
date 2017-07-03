@@ -15,4 +15,7 @@
     <string name="steps_details">Steps Details</string>
     <string name="title_activity_steps">Baking Steps</string>
     <string name="title_activity_steps_details">Steps Details</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="extra_recipe">recipe_extra</string>
 </resources>
