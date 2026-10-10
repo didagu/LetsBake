@@ -1,8 +1,12 @@
 # LetsBake
 
-> **Archived / legacy (2017).** This project is no longer maintained and will not build with current Android tooling without migration.
+An Android baking app (originally built in 2017) that lists recipes, shows their ingredients and step-by-step instructions with video playback, and includes a home-screen widget showing a recipe's ingredients.
 
-An Android baking app that lists recipes, shows their ingredients and step-by-step instructions with video playback, and includes a home-screen widget showing a recipe's ingredients.
+<p>
+  <img src="screenshots/recipes.png" width="250" alt="Recipe list">
+  <img src="screenshots/recipe-steps.png" width="250" alt="Ingredients and steps">
+  <img src="screenshots/step-detail.png" width="250" alt="Step detail with video">
+</p>
 
 ## Features
 
@@ -12,12 +16,23 @@ An Android baking app that lists recipes, shows their ingredients and step-by-st
 - Home-screen app widget (StackView) for ingredients
 - JSON parsing with Gson
 
-## Tech (as built)
+## Tech
 
-- Java, Android Support Library 25
-- compileSdk/targetSdk 25, minSdk 15
-- Android Gradle Plugin 2.3.0
+- Java, AndroidX
+- compileSdk/targetSdk 34, minSdk 21
+- Gradle 8.9, Android Gradle Plugin 8.7
+- ExoPlayer 2.19
 
-## Building today
+Recipe data comes from Udacity's public baking JSON.
 
-To build on a modern toolchain you would need to upgrade the Gradle wrapper and AGP, replace `compile` with `implementation`, migrate Support Library to AndroidX, and update ExoPlayer to Media3.
+## Building
+
+Requires JDK 17+ and the Android SDK (API 34).
+
+```bash
+./gradlew installDebug
+```
+
+## Status
+
+Archived. The build was upgraded in 2026 (from AGP 2.3 / Support Library) so it still runs on current Android, but the project is not actively maintained.
