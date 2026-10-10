@@ -25,7 +25,7 @@ public class LetsBakeWidget extends AppWidgetProvider {
         views.setRemoteAdapter(R.id.widget_stack_view, intent);
 
         Intent viewIntent = new Intent(context, MainActivity.class);
-        PendingIntent viewPendingIntent = PendingIntent.getActivity(context, 0, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent viewPendingIntent = PendingIntent.getActivity(context, 0, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
         views.setPendingIntentTemplate(R.id.widget_stack_view, viewPendingIntent);
 
         appWidgetManager.updateAppWidget(appWidgetId, views);

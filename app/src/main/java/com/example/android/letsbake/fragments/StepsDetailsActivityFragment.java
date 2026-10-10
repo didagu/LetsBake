@@ -3,7 +3,7 @@ package com.example.android.letsbake.fragments;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.LayoutInflater;
@@ -13,23 +13,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.android.letsbake.R;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.LoadControl;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 
 import static com.example.android.letsbake.MainActivity.isTablet;
 import static com.example.android.letsbake.fragments.StepsActivityFragment.steps;
@@ -38,7 +25,7 @@ import static com.example.android.letsbake.fragments.StepsActivityFragment.steps
  * Created by Dominic Idagu on 02/07/2017.
  */
 
-public class StepsDetailsActivityFragment extends Fragment implements ExoPlayer.EventListener{
+public class StepsDetailsActivityFragment extends Fragment implements Player.Listener {
 
     private static final String TAG = StepsDetailsActivityFragment.class.getSimpleName();
 
@@ -46,8 +33,8 @@ public class StepsDetailsActivityFragment extends Fragment implements ExoPlayer.
     private Button prev;
     private Button next;
     protected static int index = 0;
-    private SimpleExoPlayer exoPlayer;
-    private SimpleExoPlayerView playerView;
+    private ExoPlayer exoPlayer;
+    private StyledPlayerView playerView;
     private static MediaSessionCompat mediaSession;
     private PlaybackStateCompat.Builder stateBuilder;
     private static long position = 0;
@@ -63,7 +50,7 @@ public class StepsDetailsActivityFragment extends Fragment implements ExoPlayer.
         longDescription = (TextView) view.findViewById(R.id.description);
         prev = (Button) view.findViewById(R.id.prev);
         next = (Button) view.findViewById(R.id.next);
-        playerView = (SimpleExoPlayerView) view.findViewById(R.id.playerView);
+        playerView = (StyledPlayerView) view.findViewById(R.id.playerView);
         initializeMediaSession();
         initializePlayer(Uri.parse(steps.get(index).getVideoURL()));
 
@@ -139,15 +126,11 @@ public class StepsDetailsActivityFragment extends Fragment implements ExoPlayer.
 
     private void initializePlayer(Uri mediaUri) {
         if (exoPlayer == null) {
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
+            exoPlayer = new ExoPlayer.Builder(requireContext()).build();
             playerView.setPlayer(exoPlayer);
             exoPlayer.addListener(this);
-            String userAgent = Util.getUserAgent(getContext(), "StepsDetailsActivityFragment");
-            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
-                    getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
-            exoPlayer.prepare(mediaSource);
+            exoPlayer.setMediaItem(MediaItem.fromUri(mediaUri));
+            exoPlayer.prepare();
             restExoPlayer(position, false);
         }
     }
@@ -186,8 +169,8 @@ public class StepsDetailsActivityFragment extends Fragment implements ExoPlayer.
     }
 
     @Override
-    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        if (playbackState == PlaybackStateCompat.STATE_PLAYING) {
+    public void onPlaybackStateChanged(int playbackState) {
+        if (playbackState == Player.STATE_READY) {
             position = exoPlayer.getCurrentPosition();
         }
         mediaSession.setPlaybackState(stateBuilder.build());
@@ -210,23 +193,4 @@ public class StepsDetailsActivityFragment extends Fragment implements ExoPlayer.
         }
     }
 
-    @Override
-    public void onTimelineChanged(Timeline timeline, Object manifest) {
-    }
-
-    @Override
-    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-    }
-
-    @Override
-    public void onLoadingChanged(boolean isLoading) {
-    }
-
-    @Override
-    public void onPlayerError(ExoPlaybackException error) {
-    }
-
-    @Override
-    public void onPositionDiscontinuity() {
-    }
 }

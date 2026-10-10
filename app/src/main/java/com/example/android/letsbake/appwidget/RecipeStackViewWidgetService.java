@@ -98,7 +98,7 @@ class StackViewsRemoteFactory implements RemoteViewsService.RemoteViewsFactory {
         if(mRecipes == null) {
 
             //Udacity Recipes
-            final String UDACITY_BASE_URL_MOVIE = "https://go.udacity.com/android-baking-app-json";
+            final String UDACITY_BASE_URL_MOVIE = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
             Uri builtUri = Uri.parse(UDACITY_BASE_URL_MOVIE);
 
             HttpURLConnection urlConnection = null;

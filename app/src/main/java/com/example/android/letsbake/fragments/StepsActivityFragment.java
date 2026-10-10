@@ -2,9 +2,9 @@ package com.example.android.letsbake.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +24,7 @@ import static com.example.android.letsbake.fragments.RecipeFragment.recipes;
  * Created by Dominic Idagu on 02/07/2017.
  */
 
-public class StepsActivityFragment extends android.support.v4.app.Fragment implements StepsAdapter.ListItemClickListener{
+public class StepsActivityFragment extends androidx.fragment.app.Fragment implements StepsAdapter.ListItemClickListener{
 
     private RecyclerView stepsRecyclerView;
     private RecyclerView ingredientRecyclerView;
